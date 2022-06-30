@@ -67,7 +67,7 @@ function loadMore() {
  page+=1;
  fetchImg(query, page)
  .then(({ data }) => {
-   renderImages(data.hits);
+   renderGallery(data.hits);
    lightbox = new SimpleLightbox('.gallery a', {
      captionsData: 'alt',
    }).refresh();
@@ -83,3 +83,14 @@ function loadMore() {
  .catch(error => console.log(error));
 
 }
+
+function smoothScroll() {
+    const { height: cardHeight } = document
+      .querySelector('.gallery')
+      .firstElementChild.getBoundingClientRect();
+  
+    window.scrollBy({
+      top: cardHeight * 2,
+      behavior: 'smooth',
+    });
+  }
