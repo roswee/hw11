@@ -1,16 +1,15 @@
 // IMPORTS
 import { fetchImg } from "./js/fetch";
-import { renderGallery } from "./js/renders";
+import { renderGallery, galleryBox } from "./js/renders";
 import Notiflix, { Loading } from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 // QS
-const galleryBox = document.querySelector('.gallery');
+
 const input = document.querySelector('input');
 const loadMoreBtn = document.querySelector('.load-more');
 const form = document.querySelector('form');
 
-let lightbox = new SimpleLightbox('.gallery a');
 let page;
 let totalPages;
 form.addEventListener('submit', searchFn);
@@ -22,7 +21,7 @@ function searchFn(e) {
     page = 1;
     query = input.value.trim();
 
-    if (!query) {
+    if (query==="") {
         Notiflix.Report.failure("Sorry, there are no images matching your search query. Please try again.");
         hide();
         return
@@ -34,13 +33,15 @@ function searchFn(e) {
                 Notiflix.Notify.failure(
                     'Sorry, there are no images matching your search query. Please try again.');
             hide()}
-
-                galleryBox.innerHTML = renderGallery(data.hits);
-                lightbox.refresh();
-                if (totalHits > 40) {
+            else {
+            renderGallery(data.hits);
+                lightbox = new SimpleLightbox('.gallery a', {
+                    captionsData: 'alt',
+                  }).refresh();;
+                if (data.totalHits > 40) {
                     unhide()
 
-        }}
+        }}}
         )
         .catch(error => {
             console.log(error);
@@ -63,5 +64,22 @@ function unhide() {
 }
 
 function loadMore() {
+ page+=1;
+ fetchImg(query, page)
+ .then(({ data }) => {
+   renderImages(data.hits);
+   lightbox = new SimpleLightbox('.gallery a', {
+     captionsData: 'alt',
+   }).refresh();
+   smoothScroll();
+   const totalPages = data.totalHits / 40;
+   if (page > totalPages) {
+     hide()
+     Notify.failure(
+       "We're sorry, but you've reached the end of search results."
+     );
+   }
+ })
+ .catch(error => console.log(error));
 
 }
