@@ -1,5 +1,7 @@
 export function renderGallery(data) {
-    const {
+    return data
+    .map(data => {
+        const {
         webformatURL,
         largeImageURL,
         tags,
@@ -8,7 +10,7 @@ export function renderGallery(data) {
         comments,
         downloads,
       } = data;
-    const markup = data.map(() =>
+    return
     `<div class="photo-card">
     <a href="${largeImageURL}"><img src="${webformatURL}" alt="${tags}" loading="lazy" /></a>
     <div class="info">
@@ -25,6 +27,6 @@ export function renderGallery(data) {
         <b>Downloads</b>${downloads}
         </p>
     </div>
-  </div>`)
+  </div>`})
       .join('');
   }

@@ -8,8 +8,9 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 const galleryBox = document.querySelector('.gallery');
 const input = document.querySelector('input');
 const loadMoreBtn = document.querySelector('.load-more');
+const form = document.querySelector('form');
 
-let gallery = new SimpleLightbox('.gallery a');
+let lightbox = new SimpleLightbox('.gallery a');
 let page;
 let totalPages;
 form.addEventListener('submit', searchFn);
@@ -21,27 +22,31 @@ function searchFn(e) {
     page = 1;
     query = input.value.trim();
 
-    if (query = '') {
+    if (!query) {
         Notiflix.Report.failure("Sorry, there are no images matching your search query. Please try again.");
         hide();
         return
-    } else {
+    }
+
         fetchImg(query, page)
-        .then(({ data }) => {
+        .then(({data}) => {
             if (data.totalHits === 0) {
-                Notify.failure(
+                Notiflix.Notify.failure(
                     'Sorry, there are no images matching your search query. Please try again.');
             hide()}
-            else {
+
                 galleryBox.innerHTML = renderGallery(data.hits);
-                gallery.refresh();
-                if (data.totalHits > 40) {
+                lightbox.refresh();
+                if (totalHits > 40) {
                     unhide()
-                }
 
         }}
         )
-    }
+        .catch(error => {
+            console.log(error);
+          })
+          .finally(() => form.reset());
+    
     
 }
 
