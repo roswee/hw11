@@ -4,6 +4,7 @@ import { renderGallery, galleryBox } from "./js/renders";
 import Notiflix, { Loading } from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+import 'normalize.css';
 // QS
 
 const input = document.querySelector('input');
@@ -11,7 +12,6 @@ const loadMoreBtn = document.querySelector('.load-more');
 const form = document.querySelector('form');
 
 let page;
-let totalPages;
 form.addEventListener('submit', searchFn);
 loadMoreBtn.addEventListener('click', loadMore);
 
