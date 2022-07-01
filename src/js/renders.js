@@ -13,16 +13,16 @@ function renderGallery(data) {
     <a href="${largeImageURL}"><img src="${webformatURL}" alt="${tags}" loading="lazy" /></a>
     <div class="info">
       <p class="info-item">
-        <b>Likes</b>${likes}
+        <b>Likes</b><span class="info-data">${likes}</span>
       </p>
       <p class="info-item">
-        <b>Views</b>${views}
+        <b>Views</b><span class="info-data">${views}</span>
       </p>
       <p class="info-item">
-        <b>Comments</b>${comments}
+        <b>Comments</b><span class="info-data">${comments}</span>
       </p>
       <p class="info-item">
-        <b>Downloads</b>${downloads}
+        <b>Downloads</b><span class="info-data">${downloads}</span>
         </p>
     </div>
   </div>`)
